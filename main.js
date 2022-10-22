@@ -20,24 +20,12 @@ document.body.appendChild( renderer.domElement );
 // add orbit controls
 const controls = new OrbitControls(camera, renderer.domElement);
 
-// add grid helper
-const gridHelper = new THREE.GridHelper(200, 50);
-//scene.add(gridHelper);
-
 // add directional light
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 directionalLight.position.set( 3, 3, 1 );
-scene.add( directionalLight );
 
 const directionalLight2 = new THREE.DirectionalLight( 0xaa00ff, 1 );
 directionalLight2.position.set( -7, 3, 3 );
-scene.add( directionalLight2 );
-
-
-// add directional light helper
-const directionalLightHelper = new THREE.DirectionalLightHelper( directionalLight2, 2 );
-scene.add( directionalLightHelper );
-
 
 const groundGeometry = new THREE.CircleGeometry( 10, 32 );
 const groundMaterial = new THREE.MeshLambertMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
@@ -50,7 +38,6 @@ groundMaterial.map = groundTexture;
 const ground = new THREE.Mesh( groundGeometry, groundMaterial );
 
 ground.rotation.x = Math.PI / 2;
-scene.add( ground );
 
 const houseBaseGeometry = new THREE.CylinderGeometry( 1, 1, 1, 8 );
 const houseBaseMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff } );
@@ -61,8 +48,9 @@ houseBaseTexture.repeat.set( 5, 2 );
 
 houseBaseMaterial.map = houseBaseTexture;
 const houseBase = new THREE.Mesh( houseBaseGeometry, houseBaseMaterial );
-scene.add( houseBase );
 houseBase.position.y = 0.5;
+
+
 
 const houseLevelGeometry = new THREE.CylinderGeometry( 0.8, 1, 1, 8 );
 const houseLevelMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff } );
@@ -73,7 +61,6 @@ houseLevelTexture.repeat.set( 5, 2 );
 
 houseLevelMaterial.map = houseLevelTexture;
 const houseLevel = new THREE.Mesh( houseLevelGeometry, houseLevelMaterial );
-scene.add( houseLevel );
 houseLevel.position.y = 1.25;
 houseLevel.position.x = 0.5;
 
@@ -86,7 +73,6 @@ houseLevel2Texture.repeat.set( 5, 2 );
 
 houseLevel2Material.map = houseLevel2Texture;
 const houseLevel2 = new THREE.Mesh( houseLevel2Geometry, houseLevel2Material );
-scene.add( houseLevel2 );
 houseLevel2.position.y = 2;
 
 const houseRoofGeometry = new THREE.SphereGeometry( 1,10,32,0,Math.PI*2,0,Math.PI/2.5 );
@@ -98,7 +84,6 @@ houseRoofTexture.repeat.set( 10, 10 );
 
 houseRoofMaterial.map = houseRoofTexture;
 const houseRoof = new THREE.Mesh( houseRoofGeometry, houseRoofMaterial );
-scene.add( houseRoof );
 houseRoof.thetalength = 0.5;
 houseRoof.position.y = 2;
 
@@ -111,7 +96,7 @@ galaxyTexture.repeat.set( 10, 10 );
 
 galaxyMaterial.map = galaxyTexture;
 const galaxy = new THREE.Mesh( galaxyGeometry, galaxyMaterial );
-scene.add( galaxy );
+
 
 const doorGeometry = new THREE.BoxGeometry( 0.5, 0.8, 0.5 );
 const doorMaterial = new THREE.MeshLambertMaterial( { color: 0xffffff } );
@@ -119,26 +104,10 @@ const doorTexture = textureLoader.load("./public/textures/door.jpg");
 
 doorMaterial.map = doorTexture;
 const door = new THREE.Mesh( doorGeometry, doorMaterial );
-scene.add( door );
 door.position.x = 0;
 door.position.z = 0.75;
 door.position.y = 0.4;
 
-let solarModel;
-const makeSolarModel = (modelPath, px, py, pz, ry) => {
-    modelLoader.load(modelPath, (gltf) => {
-        gltf.scene.scale.set(0.008, 0.008, 0.008);
-        solarModel = gltf.scene;
-        scene.add(solarModel);
-        solarModel.position.x = px;
-        solarModel.position.y = py;
-        solarModel.position.z = pz;
-        solarModel.rotation.y = ry;
-    });
-}
-for(let i = 0; i < 6; i++) {
-    makeSolarModel("./public/models/solar-panel.glb", 2 + Math.random()* 4 , 0 , Math.random()* 4 , -0.6);
-}
 
 let shipModel;
 const makeShipModel = (modelPath, px, py, pz, rx, ry, rz) => {
@@ -174,10 +143,46 @@ const makeShipModel2 = (modelPath, px, py, pz, rx, ry, rz) => {
 
 makeShipModel2("./public/models/space_ship.glb", 0, 6, 0, 0, 0, 0);
 
+let solarModel;
+const makeSolarModel = (modelPath, px, py, pz, ry) => {
+    modelLoader.load(modelPath, (gltf) => {
+        gltf.scene.scale.set(0.008, 0.008, 0.008);
+        solarModel = gltf.scene;
+        scene.add(solarModel);
+        solarModel.position.x = px;
+        solarModel.position.y = py;
+        solarModel.position.z = pz;
+        solarModel.rotation.y = ry;
+    });
+}
+for(let i = 0; i < 6; i++) {
+    makeSolarModel("./public/models/solar-panel.glb", 6-i , 0 , 1.2+i, -0.8);
+}
+
+let bush;
+const makeBush = (modelPath, px, py, pz) => {
+    modelLoader.load(modelPath, (gltf) => {
+        gltf.scene.scale.set(0.6, 0.6, 0.6);
+        bush = gltf.scene;
+        scene.add(bush);
+        bush.position.x = px;
+        bush.position.y = py;
+        bush.position.z = pz;
+    });
+}
+
 camera.position.x = 0;
 camera.position.y = 8;
 camera.position.z = 15;
 camera.rotation.x = -0.5;
+
+//add everything to scene
+scene.add( directionalLight, directionalLight2, ground, houseBase, houseLevel, houseLevel2, houseRoof, door, galaxy );
+
+//add bushes
+for(let i = 0; i < 20; i++) {
+    makeBush("./public/models/bush.glb",-5 + Math.random()*8 , 0 , Math.random()* 8);
+}
 
 let t = 0;
 
