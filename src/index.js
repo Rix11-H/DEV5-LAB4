@@ -171,7 +171,7 @@ class Scene {
 
         for (let i = 0; i < 6; i++) {
             this.modelLoader.load(
-                "/public/models/solar-panel.glb",
+                "./public/models/solar-panel.glb",
                 (gltf) => {
                     this.solar = gltf.scene;
                     this.solar.scale.set(0.008, 0.008, 0.008);
@@ -187,7 +187,7 @@ class Scene {
 
         for (let i = 0; i < 6; i++) {
             this.modelLoader.load(
-                "/public/models/bush.glb",
+                "./public/models/bush.glb",
                 (gltf) => {
                     this.bush = gltf.scene;
                     this.bush.scale.set(1,1,1);
