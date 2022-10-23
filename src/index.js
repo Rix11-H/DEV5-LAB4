@@ -53,7 +53,7 @@ class Scene {
 
         this.galaxyGeometry = new THREE.SphereGeometry(20, 10, 32, 0,);
         this.galaxyMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-        this.galaxyTexture = textureLoader.load("./public/assets/textures/galaxy.png");
+        this.galaxyTexture = textureLoader.load("../public/assets/textures/galaxy.png");
         this.galaxyTexture.wrapS = THREE.RepeatWrapping;
         this.galaxyTexture.wrapT = THREE.RepeatWrapping;
         this.galaxyTexture.repeat.set(10, 10);
@@ -63,7 +63,7 @@ class Scene {
 
         this.groundGeometry = new THREE.CircleGeometry(10, 32);
         this.groundMaterial = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-        this.groundTexture = textureLoader.load("./public/assets/textures/marskorrels.jpg");
+        this.groundTexture = textureLoader.load("../public/assets/textures/marskorrels.jpg");
         this.groundTexture.wrapS = THREE.RepeatWrapping;
         this.groundTexture.wrapT = THREE.RepeatWrapping;
         this.groundTexture.repeat.set(10, 10);
@@ -74,7 +74,7 @@ class Scene {
 
         this.houseBaseGeometry = new THREE.CylinderGeometry(1, 1, 1, 8);
         this.houseBaseMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-        this.houseBaseTexture = textureLoader.load("./public/assets/textures/metal.jpg");
+        this.houseBaseTexture = textureLoader.load("../public/assets/textures/metal.jpg");
         this.houseBaseTexture.wrapS = THREE.RepeatWrapping;
         this.houseBaseTexture.wrapT = THREE.RepeatWrapping;
         this.houseBaseTexture.repeat.set(5, 2);
@@ -85,7 +85,7 @@ class Scene {
 
         this.houseLevelGeometry = new THREE.CylinderGeometry(0.8, 1, 1, 8);
         this.houseLevelMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-        this.houseLevelTexture = textureLoader.load("./public/assets/textures/metal.jpg");
+        this.houseLevelTexture = textureLoader.load("../public/assets/textures/metal.jpg");
         this.houseLevelTexture.wrapS = THREE.RepeatWrapping;
         this.houseLevelTexture.wrapT = THREE.RepeatWrapping;
         this.houseLevelTexture.repeat.set(5, 2);
@@ -97,7 +97,7 @@ class Scene {
 
         this.houseLevel2Geometry = new THREE.CylinderGeometry(0.8, 1, 1, 8);
         this.houseLevel2Material = new THREE.MeshLambertMaterial({ color: 0xffffff });
-        this.houseLevel2Texture = textureLoader.load("./public/assets/textures/metal.jpg");
+        this.houseLevel2Texture = textureLoader.load("../public/assets/textures/metal.jpg");
         this.houseLevel2Texture.wrapS = THREE.RepeatWrapping;
         this.houseLevel2Texture.wrapT = THREE.RepeatWrapping;
         this.houseLevel2Texture.repeat.set(5, 2);
@@ -108,7 +108,7 @@ class Scene {
 
         this.houseRoofGeometry = new THREE.SphereGeometry(1, 10, 32, 0, Math.PI * 2, 0, Math.PI / 2.5);
         this.houseRoofMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-        this.houseRoofTexture = textureLoader.load("./public/assets/textures/gold-foil.webp");
+        this.houseRoofTexture = textureLoader.load("../public/assets/textures/gold-foil.webp");
         this.houseRoofTexture.wrapS = THREE.RepeatWrapping;
         this.houseRoofTexture.wrapT = THREE.RepeatWrapping;
         this.houseRoofTexture.repeat.set(10, 3);
@@ -120,7 +120,7 @@ class Scene {
 
         this.windowGeometry = new THREE.CylinderGeometry(.2, .2, .2, 32);
         this.windowMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-        this.windowTexture = textureLoader.load("./public/assets/textures/window.jpg");
+        this.windowTexture = textureLoader.load("../public/assets/textures/window.jpg");
         this.fenetre = new THREE.Mesh(this.windowGeometry, this.windowMaterial);
         this.windowMaterial.map = this.windowTexture;
         this.fenetre.position.x = 1.32;
@@ -130,7 +130,7 @@ class Scene {
 
         this.doorGeometry = new THREE.BoxGeometry(0.5, 0.8, 0.5);
         this.doorMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
-        this.doorTexture = textureLoader.load("./assets/public/textures/door.jpg");
+        this.doorTexture = textureLoader.load("../assets/public/textures/door.jpg");
         this.doorMaterial.map = this.doorTexture;
         this.door = new THREE.Mesh(this.doorGeometry, this.doorMaterial);
         this.door.position.x = 0;
@@ -145,7 +145,7 @@ class Scene {
         this.modelLoader = new GLTFLoader();
 
         this.modelLoader.load(
-            "./public/assets/models/space_ship.glb",
+            "../public/assets/models/space_ship.glb",
             (gltf) => {
                 this.ship = gltf.scene;
                 this.ship.scale.set(0.5, 0.5, 0.5);
@@ -160,7 +160,7 @@ class Scene {
         );
 
         this.modelLoader.load(
-            "./public/assets/models/space_ship.glb",
+            "../public/assets/models/space_ship.glb",
             (gltf) => {
                 this.flyingShip = gltf.scene;
                 this.flyingShip.scale.set(0.5, 0.5, 0.5);
@@ -171,7 +171,7 @@ class Scene {
 
         for (let i = 0; i < 6; i++) {
             this.modelLoader.load(
-                "./public/assets/models/solar-panel.glb",
+                "../public/assets/models/solar-panel.glb",
                 (gltf) => {
                     this.solar = gltf.scene;
                     this.solar.scale.set(0.008, 0.008, 0.008);
@@ -187,7 +187,7 @@ class Scene {
 
         for (let i = 0; i < 6; i++) {
             this.modelLoader.load(
-                "./public/assets/models/bush.glb",
+                "../public/assets/models/bush.glb",
                 (gltf) => {
                     this.bush = gltf.scene;
                     this.bush.scale.set(1,1,1);
@@ -204,7 +204,7 @@ class Scene {
     addText() {
         const textLoader = new FontLoader();
         textLoader.load(
-            './public/assets/fonts/TheWildBreathofZelda_Regular.json',
+            '../public/assets/fonts/TheWildBreathofZelda_Regular.json',
             (droidFont) => {
                 this.textGeometry = new TextGeometry("welcome to ricky's space station", {
                     size: 1,
