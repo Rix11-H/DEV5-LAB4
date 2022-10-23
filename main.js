@@ -12,9 +12,9 @@ const textureLoader = new THREE.TextureLoader();
 const modelLoader = new GLTFLoader();
 const textLoader = new FontLoader();
 
-const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('/examples/js/libs/draco/');
-modelLoader.setDRACOLoader(dracoLoader);
+// const dracoLoader = new DRACOLoader();
+// dracoLoader.setDecoderPath('/examples/js/libs/draco/');
+// modelLoader.setDRACOLoader(dracoLoader);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -30,7 +30,7 @@ directionalLight.position.set(3, 3, 1);
 const directionalLight2 = new THREE.DirectionalLight(0xaa00ff, 1);
 directionalLight2.position.set(-7, 3, 3);
 
-const pointLight = new THREE.PointLight( 0xffffaa, 1.2, 40 );
+let pointLight = new THREE.PointLight( 0xffffaa, 1.2, 40 );
 pointLight.position.x = 50;
 
 const groundGeometry = new THREE.CircleGeometry(10, 32);
@@ -148,13 +148,14 @@ const makeShipModel2 = (modelPath, px, py, pz, rx, ry, rz) => {
   modelLoader.load(modelPath, (gltf) => {
     gltf.scene.scale.set(0.5, 0.5, 0.5);
     shipModel2 = gltf.scene;
-    scene.add(shipModel2);
+
     shipModel2.position.x = px;
     shipModel2.position.y = py;
     shipModel2.position.z = pz;
     shipModel2.rotation.x = rx;
     shipModel2.rotation.y = ry;
     shipModel2.rotation.z = rz;
+    scene.add(shipModel2);
   });
 }
 
@@ -225,19 +226,18 @@ for (let i = 0; i < 20; i++) {
 let t = 0;
 
 function animate() {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(shipModel2, pointLight);
 
   t += 0.01;
   shipModel2.rotation.y -= 0.0085;
   shipModel2.position.x = 10 * Math.cos(t) + 0;
   shipModel2.position.z = 10 * Math.sin(t) + 0;
 
-  pointLight.rotation.y -= 0.01;
+  pointLight.rotation.y -= 0.02;
   pointLight.position.x = 10 * Math.cos(t) + 0;
   pointLight.position.y = 10 * Math.sin(t) + 0;
 
   renderer.render(scene, camera);
 };
-
 
 animate();
