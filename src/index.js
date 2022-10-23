@@ -13,15 +13,15 @@ class Scene {
         this.camera.position.z = 15;
         this.camera.rotation.x = -0.5;
 
-        this.renderer = new THREE.WebGLRenderer({
-            canvas: document.body.appendChild(renderer.domElement),
-            antialias: true,
-            alpha: true
-        });
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(this.renderer.domElement);
 
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+
+        this.clock = new THREE.Clock();
 
     }
 
@@ -30,6 +30,7 @@ class Scene {
         this.addTextures();
         this.addModels();
         this.addText();
+        this.render();
 
     }
 
@@ -50,16 +51,14 @@ class Scene {
     addTextures() {
         const textureLoader = new THREE.TextureLoader();
 
-
         this.galaxyGeometry = new THREE.SphereGeometry(20, 10, 32, 0,);
         this.galaxyMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
         this.galaxyTexture = textureLoader.load("./public/textures/galaxy.png");
         this.galaxyTexture.wrapS = THREE.RepeatWrapping;
         this.galaxyTexture.wrapT = THREE.RepeatWrapping;
         this.galaxyTexture.repeat.set(10, 10);
-        this.galaxyMaterial.map = galaxyTexture;
-        this.galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
-
+        this.galaxyMaterial.map = this.galaxyTexture;
+        this.galaxy = new THREE.Mesh(this.galaxyGeometry, this.galaxyMaterial);
 
 
         this.groundGeometry = new THREE.CircleGeometry(10, 32);
@@ -68,8 +67,8 @@ class Scene {
         this.groundTexture.wrapS = THREE.RepeatWrapping;
         this.groundTexture.wrapT = THREE.RepeatWrapping;
         this.groundTexture.repeat.set(10, 10);
-        this.groundMaterial.map = groundTexture;
-        this.ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        this.groundMaterial.map = this.groundTexture;
+        this.ground = new THREE.Mesh(this.groundGeometry, this.groundMaterial);
         this.ground.rotation.x = Math.PI / 2;
 
 
@@ -79,10 +78,9 @@ class Scene {
         this.houseBaseTexture.wrapS = THREE.RepeatWrapping;
         this.houseBaseTexture.wrapT = THREE.RepeatWrapping;
         this.houseBaseTexture.repeat.set(5, 2);
-        this.houseBaseMaterial.map = houseBaseTexture;
-        this.houseBase = new THREE.Mesh(houseBaseGeometry, houseBaseMaterial);
+        this.houseBaseMaterial.map = this.houseBaseTexture;
+        this.houseBase = new THREE.Mesh(this.houseBaseGeometry, this.houseBaseMaterial);
         this.houseBase.position.y = 0.5;
-
 
 
         this.houseLevelGeometry = new THREE.CylinderGeometry(0.8, 1, 1, 8);
@@ -91,8 +89,8 @@ class Scene {
         this.houseLevelTexture.wrapS = THREE.RepeatWrapping;
         this.houseLevelTexture.wrapT = THREE.RepeatWrapping;
         this.houseLevelTexture.repeat.set(5, 2);
-        this.houseLevelMaterial.map = houseLevelTexture;
-        this.houseLevel = new THREE.Mesh(houseLevelGeometry, houseLevelMaterial);
+        this.houseLevelMaterial.map = this.houseLevelTexture;
+        this.houseLevel = new THREE.Mesh(this.houseLevelGeometry, this.houseLevelMaterial);
         this.houseLevel.position.y = 1.25;
         this.houseLevel.position.x = 0.5;
 
@@ -103,8 +101,8 @@ class Scene {
         this.houseLevel2Texture.wrapS = THREE.RepeatWrapping;
         this.houseLevel2Texture.wrapT = THREE.RepeatWrapping;
         this.houseLevel2Texture.repeat.set(5, 2);
-        this.houseLevel2Material.map = houseLevel2Texture;
-        this.houseLevel2 = new THREE.Mesh(houseLevel2Geometry, houseLevel2Material);
+        this.houseLevel2Material.map = this.houseLevel2Texture;
+        this.houseLevel2 = new THREE.Mesh(this.houseLevel2Geometry, this.houseLevel2Material);
         this.houseLevel2.position.y = 2;
 
 
@@ -114,8 +112,8 @@ class Scene {
         this.houseRoofTexture.wrapS = THREE.RepeatWrapping;
         this.houseRoofTexture.wrapT = THREE.RepeatWrapping;
         this.houseRoofTexture.repeat.set(10, 3);
-        this.houseRoofMaterial.map = houseRoofTexture;
-        this.houseRoof = new THREE.Mesh(houseRoofGeometry, houseRoofMaterial);
+        this.houseRoofMaterial.map = this.houseRoofTexture;
+        this.houseRoof = new THREE.Mesh(this.houseRoofGeometry, this.houseRoofMaterial);
         this.houseRoof.thetalength = 0.5;
         this.houseRoof.position.y = 2;
 
@@ -123,8 +121,8 @@ class Scene {
         this.windowGeometry = new THREE.CylinderGeometry(.2, .2, .2, 32);
         this.windowMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
         this.windowTexture = textureLoader.load("./public/textures/window.jpg");
-        this.fenetre = new THREE.Mesh(windowGeometry, windowMaterial);
-        this.windowMaterial.map = windowTexture;
+        this.fenetre = new THREE.Mesh(this.windowGeometry, this.windowMaterial);
+        this.windowMaterial.map = this.windowTexture;
         this.fenetre.position.x = 1.32;
         this.fenetre.position.y = 1.3;
         this.fenetre.rotation.z = 3.14 / 2;
@@ -133,13 +131,13 @@ class Scene {
         this.doorGeometry = new THREE.BoxGeometry(0.5, 0.8, 0.5);
         this.doorMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
         this.doorTexture = textureLoader.load("./public/textures/door.jpg");
-        this.doorMaterial.map = doorTexture;
-        this.door = new THREE.Mesh(doorGeometry, doorMaterial);
+        this.doorMaterial.map = this.doorTexture;
+        this.door = new THREE.Mesh(this.doorGeometry, this.doorMaterial);
         this.door.position.x = 0;
         this.door.position.z = 0.75;
         this.door.position.y = 0.4;
 
-        this.scene.add(galaxy, ground, houseBase, houseLevel, houseLevel2, houseRoof, fenetre, door);
+        this.scene.add(this.galaxy, this.ground, this.houseBase, this.houseLevel, this.houseLevel2, this.houseRoof, this.fenetre, this.door);
 
     }
 
@@ -167,88 +165,89 @@ class Scene {
                 this.flyingShip = gltf.scene;
                 this.flyingShip.scale.set(0.5, 0.5, 0.5);
 
-                this.flyingShip.position.y = 6;
-
                 this.scene.add(this.flyingShip);
             }
         );
 
-        this.modelLoader.load(
-            "./public/models/solar-panel.glb",
-            (gltf) => {
-                this.solar = gltf.scene;
-                this.solar.scale.set(0.008, 0.008, 0.008);
+        for (let i = 0; i < 6; i++) {
+            this.modelLoader.load(
+                "/public/models/solar-panel.glb",
+                (gltf) => {
+                    this.solar = gltf.scene;
+                    this.solar.scale.set(0.008, 0.008, 0.008);
+                    this.solar.rotation.y = -0.8;
 
-                for (let i = 0; i < 6; i++) {
                     this.solar.position.x = 6 - i;
                     this.solar.position.z = 1.2 + i;
-                    this.solar.rotation.y = -0.8;
                     this.scene.add(this.solar);
+
                 }
-            }
-        );
+            );
+        }
 
-        this.modelLoader.load(
-            "./public/models/bush.glb",
-            (gltf) => {
-                this.bush = gltf.scene;
-                this.bush.scale.set(0.008, 0.008, 0.008);
+        for (let i = 0; i < 6; i++) {
+            this.modelLoader.load(
+                "/public/models/bush.glb",
+                (gltf) => {
+                    this.bush = gltf.scene;
+                    this.bush.scale.set(1,1,1);
 
-                for (let i = 0; i < 6; i++) {
                     this.bush.position.x = -5 + Math.random() * 8;
                     this.bush.position.z = Math.random() * 8;
                     this.scene.add(this.bush);
+                    console.log("bush added on" + this.bush.position.x + " " + this.bush.position.z);
                 }
-            }
-        );
-
+            );
+        }
 
     }
 
     addText() {
-        this.textLoader = new FontLoader();
+        const textLoader = new FontLoader();
         textLoader.load(
             './public/fonts/TheWildBreathofZelda_Regular.json',
             (droidFont) => {
-                const textGeometry = new TextGeometry("welcome to ricky's space station", {
+                this.textGeometry = new TextGeometry("welcome to ricky's space station", {
                     size: 1,
                     height: .4,
                     font: droidFont,
                 });
-                const textMaterial1 = new THREE.MeshLambertMaterial({ color: 0xffffff });
-                const textMaterial2 = new THREE.MeshLambertMaterial({ color: 0xaaffff });
-                textMesh = new THREE.Mesh(textGeometry, [textMaterial1, textMaterial2]);
-                textMesh.position.x = -8.5;
-                textMesh.position.y = 6;
-                textMesh.position.z = 0;
-                scene.add(textMesh);
+                this.textMaterial1 = new THREE.MeshLambertMaterial({ color: 0xffffff });
+                this.textMaterial2 = new THREE.MeshLambertMaterial({ color: 0xaaffff });
+                this.textMesh = new THREE.Mesh(this.textGeometry, [this.textMaterial1, this.textMaterial2]);
+                this.textMesh.position.x = -8.5;
+                this.textMesh.position.y = 6;
+                this.textMesh.position.z = 0;
+                this.scene.add(this.textMesh);
             }
         );
 
     }
 
-    run() {
-        this.render();
-    }
-
-    animate() {
-        let t = 0;
-        requestAnimationFrame(this.run.bind(this));
+    render() {
+        requestAnimationFrame(this.render.bind(this));
         this.controls.update();
-        this.renderer.render(this.scene, this.camera);
+        let t = 0;
+        let r = 12;
 
         if (this.flyingShip) {
-            t += 0.01;
-            this.flyingShip.rotation.y -= 0.0085;
-            this.flyingShip.position.x = 10 * Math.cos(t) + 0;
-            this.flyingShip.position.z = 10 * Math.sin(t) + 0;
+            t = this.clock.getElapsedTime() * 0.1 * Math.PI;
+            this.flyingShip.position.set(
+                Math.cos(t + Math.PI * 0.5 * 0) * r,
+                6,
+                Math.sin(t + Math.PI * 0.5 * 0) * r,
+            )
+            this.flyingShip.rotation.y = -t + Math.PI * 0.2 * r;
         }
 
         if (this.pointLight) {
+            t = this.clock.getElapsedTime() * 0.3 * Math.PI;
             this.pointLight.rotation.y -= 0.02;
             this.pointLight.position.x = 10 * Math.cos(t) + 0;
             this.pointLight.position.y = 10 * Math.sin(t) + 0;
         }
+        this.renderer.render(this.scene, this.camera);
+
     };
 
 }
